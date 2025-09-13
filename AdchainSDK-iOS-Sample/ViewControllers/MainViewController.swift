@@ -1,0 +1,394 @@
+import UIKit
+import AdchainSDK
+
+class MainViewController: UIViewController {
+    
+    private let TAG = "MainActivity"
+    
+    // UI Components matching Android
+    private let loginContainer = UIView()
+    private let menuContainer = UIView()
+    private let userIdTextField = UITextField()
+    private let userIdErrorLabel = UILabel()
+    private let loginButton = UIButton(type: .system)
+    private let logoutButton = UIButton(type: .system)
+    private let userInfoLabel = UILabel()
+    private let nativeAdButton = UIButton(type: .system)
+    private let missionButton = UIButton(type: .system)
+    private let adchainHubButton = UIButton(type: .system)
+    private let bannerButton = UIButton(type: .system)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Adchain SDK Sample"
+        view.backgroundColor = .systemBackground
+        
+        setupUI()
+        setupConstraints()
+        
+        // Set default test user ID like Android
+        userIdTextField.text = "test_user_123"
+        
+        setupListeners()
+        updateUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI() // Android: onResume()
+    }
+    
+    private func setupUI() {
+        // Configure login container
+        loginContainer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginContainer)
+        
+        // Title label
+        let titleLabel = UILabel()
+        titleLabel.text = "Adchain SDK Sample"
+        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        loginContainer.addSubview(titleLabel)
+        
+        // Card view for login
+        let cardView = UIView()
+        cardView.backgroundColor = .secondarySystemBackground
+        cardView.layer.cornerRadius = 8
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOpacity = 0.1
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        cardView.layer.shadowRadius = 4
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        loginContainer.addSubview(cardView)
+        
+        // User login label
+        let userLoginLabel = UILabel()
+        userLoginLabel.text = "User Login"
+        userLoginLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        userLoginLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(userLoginLabel)
+        
+        // User ID text field
+        userIdTextField.placeholder = "User ID"
+        userIdTextField.borderStyle = .roundedRect
+        userIdTextField.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(userIdTextField)
+        
+        // Error label
+        userIdErrorLabel.textColor = .systemRed
+        userIdErrorLabel.font = .systemFont(ofSize: 14)
+        userIdErrorLabel.isHidden = true
+        userIdErrorLabel.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(userIdErrorLabel)
+        
+        // Login button
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.backgroundColor = .systemBlue
+        loginButton.setTitleColor(.white, for: .normal)
+        loginButton.layer.cornerRadius = 6
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(loginButton)
+        
+        // Configure menu container
+        menuContainer.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.isHidden = true
+        view.addSubview(menuContainer)
+        
+        // User info label
+        userInfoLabel.font = .systemFont(ofSize: 16)
+        userInfoLabel.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(userInfoLabel)
+        
+        // SDK Features label
+        let featuresLabel = UILabel()
+        featuresLabel.text = "SDK Features"
+        featuresLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        featuresLabel.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(featuresLabel)
+        
+        // Native Ad button
+        nativeAdButton.setTitle("Quiz Test", for: .normal)
+        nativeAdButton.backgroundColor = .systemBlue
+        nativeAdButton.setTitleColor(.white, for: .normal)
+        nativeAdButton.layer.cornerRadius = 6
+        nativeAdButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(nativeAdButton)
+        
+        // Mission button
+        missionButton.setTitle("Mission System Test", for: .normal)
+        missionButton.backgroundColor = .systemBlue
+        missionButton.setTitleColor(.white, for: .normal)
+        missionButton.layer.cornerRadius = 6
+        missionButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(missionButton)
+        
+        // Adchain Hub button
+        adchainHubButton.setTitle("Adchain Hub Test", for: .normal)
+        adchainHubButton.backgroundColor = .systemBlue
+        adchainHubButton.setTitleColor(.white, for: .normal)
+        adchainHubButton.layer.cornerRadius = 6
+        adchainHubButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(adchainHubButton)
+        
+        // Banner button
+        bannerButton.setTitle("Banner Test", for: .normal)
+        bannerButton.backgroundColor = .systemBlue
+        bannerButton.setTitleColor(.white, for: .normal)
+        bannerButton.layer.cornerRadius = 6
+        bannerButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(bannerButton)
+        
+        // Logout button
+        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.layer.borderWidth = 1
+        logoutButton.layer.borderColor = UIColor.systemBlue.cgColor
+        logoutButton.layer.cornerRadius = 6
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(logoutButton)
+        
+        // Setup constraints
+        NSLayoutConstraint.activate([
+            // Login container
+            loginContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            loginContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            loginContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            // Title label
+            titleLabel.topAnchor.constraint(equalTo: loginContainer.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: loginContainer.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: loginContainer.trailingAnchor),
+            
+            // Card view
+            cardView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
+            cardView.leadingAnchor.constraint(equalTo: loginContainer.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: loginContainer.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: loginContainer.bottomAnchor),
+            
+            // User login label
+            userLoginLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
+            userLoginLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            
+            // User ID text field
+            userIdTextField.topAnchor.constraint(equalTo: userLoginLabel.bottomAnchor, constant: 16),
+            userIdTextField.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            userIdTextField.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            userIdTextField.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Error label
+            userIdErrorLabel.topAnchor.constraint(equalTo: userIdTextField.bottomAnchor, constant: 4),
+            userIdErrorLabel.leadingAnchor.constraint(equalTo: userIdTextField.leadingAnchor),
+            userIdErrorLabel.trailingAnchor.constraint(equalTo: userIdTextField.trailingAnchor),
+            
+            // Login button
+            loginButton.topAnchor.constraint(equalTo: userIdErrorLabel.bottomAnchor, constant: 16),
+            loginButton.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            loginButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            loginButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
+            loginButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Menu container
+            menuContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            menuContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            menuContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            // User info label
+            userInfoLabel.topAnchor.constraint(equalTo: menuContainer.topAnchor),
+            userInfoLabel.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            
+            // Features label
+            featuresLabel.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 16),
+            featuresLabel.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            
+            // Native Ad button
+            nativeAdButton.topAnchor.constraint(equalTo: featuresLabel.bottomAnchor, constant: 16),
+            nativeAdButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            nativeAdButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            nativeAdButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Mission button
+            missionButton.topAnchor.constraint(equalTo: nativeAdButton.bottomAnchor, constant: 8),
+            missionButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            missionButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            missionButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Adchain Hub button
+            adchainHubButton.topAnchor.constraint(equalTo: missionButton.bottomAnchor, constant: 8),
+            adchainHubButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            adchainHubButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            adchainHubButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Banner button
+            bannerButton.topAnchor.constraint(equalTo: adchainHubButton.bottomAnchor, constant: 8),
+            bannerButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            bannerButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            bannerButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            // Logout button
+            logoutButton.topAnchor.constraint(equalTo: bannerButton.bottomAnchor, constant: 24),
+            logoutButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            logoutButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            logoutButton.bottomAnchor.constraint(equalTo: menuContainer.bottomAnchor),
+            logoutButton.heightAnchor.constraint(equalToConstant: 44),
+        ])
+    }
+    
+    private func setupConstraints() {
+        // Constraints are set in setupUI method
+    }
+    
+    private func setupListeners() {
+        loginButton.addTarget(self, action: #selector(performLogin), for: .touchUpInside)
+        logoutButton.addTarget(self, action: #selector(performLogout), for: .touchUpInside)
+        nativeAdButton.addTarget(self, action: #selector(openNativeAd), for: .touchUpInside)
+        missionButton.addTarget(self, action: #selector(openMission), for: .touchUpInside)
+        adchainHubButton.addTarget(self, action: #selector(openAdchainHub), for: .touchUpInside)
+        bannerButton.addTarget(self, action: #selector(performBannerTest), for: .touchUpInside)
+    }
+    
+    @objc private func performLogin() {
+        // EXACT Android login implementation
+        guard let userId = userIdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !userId.isEmpty else {
+            userIdErrorLabel.text = "Please enter a user ID"
+            userIdErrorLabel.isHidden = false
+            return
+        }
+        
+        userIdErrorLabel.isHidden = true
+        
+        print("\(TAG): Attempting login with user ID: \(userId)")
+        
+        // EXACT Android user creation pattern
+        let user = AdchainSdkUser(
+            userId: userId,
+            gender: .male, // Android: AdchainSdkUser.Gender.MALE
+            birthYear: 1990
+        )
+        
+        // EXACT Android login listener implementation
+        class LoginListenerImpl: NSObject, AdchainSdkLoginListener {
+            weak var viewController: MainViewController?
+            
+            init(viewController: MainViewController) {
+                self.viewController = viewController
+            }
+            
+            func onSuccess() {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Login successful")
+                DispatchQueue.main.async {
+                    vc.showToast("Login successful!")
+                    vc.updateUI()
+                }
+            }
+            
+            func onFailure(_ error: AdchainLoginError) {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Login failed: \(error)")
+                
+                // EXACT Android error mapping
+                let errorMessage = error.description
+                
+                DispatchQueue.main.async {
+                    vc.showToast(errorMessage)
+                }
+            }
+        }
+        
+        AdchainSdk.shared.login(adchainSdkUser: user, listener: LoginListenerImpl(viewController: self))
+    }
+    
+    @objc private func performLogout() {
+        print("\(TAG): Performing logout")
+        
+        AdchainSdk.shared.logout()
+        showToast("Logged out successfully")
+        updateUI()
+    }
+    
+    @objc private func openNativeAd() {
+        let nativeAdVC = NativeAdViewController()
+        navigationController?.pushViewController(nativeAdVC, animated: true)
+    }
+    
+    @objc private func openMission() {
+        let missionVC = MissionViewController()
+        navigationController?.pushViewController(missionVC, animated: true)
+    }
+    
+    @objc private func openAdchainHub() {
+        // EXACT Android offerwall opening with callback
+        print("\(TAG): Opening Adchain Hub (Offerwall)")
+        
+        AdchainSdk.shared.openOfferwall(presentingViewController: self)
+    }
+    
+    @objc private func performBannerTest() {
+        print("\(TAG): Starting Banner Test")
+        
+        // SDK의 Banner API 호출
+        AdchainBanner.shared.getBanner(
+            placementId: "test_placement_001",  // 테스트용 placement ID
+            onSuccess: { bannerResponse in
+                print("\(self.TAG): Banner loaded successfully")
+                
+                // 팝업으로 Banner 데이터 표시
+                let message = """
+                Banner Data Received:
+                
+                Title: \(bannerResponse.titleText ?? "")
+                Image URL: \(bannerResponse.imageUrl ?? "")
+                Link URL: \(bannerResponse.linkUrl ?? "")
+                """
+                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "Banner Test Result",
+                        message: message,
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                }
+            },
+            onFailure: { error in
+                print("\(self.TAG): Banner load failed: \(error)")
+                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "Banner Test Failed",
+                        message: "Error: \(error)",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
+        )
+    }
+    
+    private func updateUI() {
+        let isLoggedIn = AdchainSdk.shared.isLoggedIn
+        
+        if isLoggedIn {
+            loginContainer.isHidden = true
+            menuContainer.isHidden = false
+            userInfoLabel.text = "Logged in as: \(AdchainSdk.shared.getCurrentUser()?.userId ?? "Unknown")"
+        } else {
+            loginContainer.isHidden = false
+            menuContainer.isHidden = true
+            userIdTextField.text = ""
+        }
+    }
+    
+    private func showToast(_ message: String) {
+        // iOS Toast implementation
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
+        }
+    }
+}

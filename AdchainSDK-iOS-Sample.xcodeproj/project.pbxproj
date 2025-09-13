@@ -1,0 +1,625 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		721A4A922E6895B4006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4A912E6895B4006C1883 /* AdchainSDK */; };
+		721A4AAF2E689D0A006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AAE2E689D0A006C1883 /* AdchainSDK */; };
+		721A4AB22E692F91006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB12E692F91006C1883 /* AdchainSDK */; };
+		721A4AB52E695AE6006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB42E695AE6006C1883 /* AdchainSDK */; };
+		721A4AB82E69665B006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB72E69665B006C1883 /* AdchainSDK */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		72EB33502E689337007D1EB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 72EB33312E689336007D1EB2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72EB33382E689336007D1EB2;
+			remoteInfo = "AdchainSDK-iOS-Sample";
+		};
+		72EB335A2E689337007D1EB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 72EB33312E689336007D1EB2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72EB33382E689336007D1EB2;
+			remoteInfo = "AdchainSDK-iOS-Sample";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		72EB33392E689336007D1EB2 /* AdchainSDK-iOS-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AdchainSDK-iOS-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72EB334F2E689337007D1EB2 /* AdchainSDK-iOS-SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AdchainSDK-iOS-SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72EB33592E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AdchainSDK-iOS-SampleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		72EB33612E689337007D1EB2 /* Exceptions for "AdchainSDK-iOS-Sample" folder in "AdchainSDK-iOS-Sample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 72EB33382E689336007D1EB2 /* AdchainSDK-iOS-Sample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		72EB333B2E689336007D1EB2 /* AdchainSDK-iOS-Sample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				72EB33612E689337007D1EB2 /* Exceptions for "AdchainSDK-iOS-Sample" folder in "AdchainSDK-iOS-Sample" target */,
+			);
+			path = "AdchainSDK-iOS-Sample";
+			sourceTree = "<group>";
+		};
+		72EB33522E689337007D1EB2 /* AdchainSDK-iOS-SampleTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "AdchainSDK-iOS-SampleTests";
+			sourceTree = "<group>";
+		};
+		72EB335C2E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "AdchainSDK-iOS-SampleUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		72EB33362E689336007D1EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				721A4AB52E695AE6006C1883 /* AdchainSDK in Frameworks */,
+				721A4AAF2E689D0A006C1883 /* AdchainSDK in Frameworks */,
+				721A4A922E6895B4006C1883 /* AdchainSDK in Frameworks */,
+				721A4AB22E692F91006C1883 /* AdchainSDK in Frameworks */,
+				721A4AB82E69665B006C1883 /* AdchainSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB334C2E689337007D1EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB33562E689337007D1EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		72EB33302E689336007D1EB2 = {
+			isa = PBXGroup;
+			children = (
+				72EB333B2E689336007D1EB2 /* AdchainSDK-iOS-Sample */,
+				72EB33522E689337007D1EB2 /* AdchainSDK-iOS-SampleTests */,
+				72EB335C2E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests */,
+				72EB333A2E689336007D1EB2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		72EB333A2E689336007D1EB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				72EB33392E689336007D1EB2 /* AdchainSDK-iOS-Sample.app */,
+				72EB334F2E689337007D1EB2 /* AdchainSDK-iOS-SampleTests.xctest */,
+				72EB33592E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		72EB33382E689336007D1EB2 /* AdchainSDK-iOS-Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72EB33622E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-Sample" */;
+			buildPhases = (
+				72EB33352E689336007D1EB2 /* Sources */,
+				72EB33362E689336007D1EB2 /* Frameworks */,
+				72EB33372E689336007D1EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				72EB333B2E689336007D1EB2 /* AdchainSDK-iOS-Sample */,
+			);
+			name = "AdchainSDK-iOS-Sample";
+			packageProductDependencies = (
+				721A4A912E6895B4006C1883 /* AdchainSDK */,
+				721A4AAE2E689D0A006C1883 /* AdchainSDK */,
+				721A4AB12E692F91006C1883 /* AdchainSDK */,
+				721A4AB42E695AE6006C1883 /* AdchainSDK */,
+				721A4AB72E69665B006C1883 /* AdchainSDK */,
+			);
+			productName = "AdchainSDK-iOS-Sample";
+			productReference = 72EB33392E689336007D1EB2 /* AdchainSDK-iOS-Sample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		72EB334E2E689337007D1EB2 /* AdchainSDK-iOS-SampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72EB33672E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-SampleTests" */;
+			buildPhases = (
+				72EB334B2E689337007D1EB2 /* Sources */,
+				72EB334C2E689337007D1EB2 /* Frameworks */,
+				72EB334D2E689337007D1EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				72EB33512E689337007D1EB2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				72EB33522E689337007D1EB2 /* AdchainSDK-iOS-SampleTests */,
+			);
+			name = "AdchainSDK-iOS-SampleTests";
+			packageProductDependencies = (
+			);
+			productName = "AdchainSDK-iOS-SampleTests";
+			productReference = 72EB334F2E689337007D1EB2 /* AdchainSDK-iOS-SampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		72EB33582E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72EB336A2E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-SampleUITests" */;
+			buildPhases = (
+				72EB33552E689337007D1EB2 /* Sources */,
+				72EB33562E689337007D1EB2 /* Frameworks */,
+				72EB33572E689337007D1EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				72EB335B2E689337007D1EB2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				72EB335C2E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests */,
+			);
+			name = "AdchainSDK-iOS-SampleUITests";
+			packageProductDependencies = (
+			);
+			productName = "AdchainSDK-iOS-SampleUITests";
+			productReference = 72EB33592E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		72EB33312E689336007D1EB2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					72EB33382E689336007D1EB2 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					72EB334E2E689337007D1EB2 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 72EB33382E689336007D1EB2;
+					};
+					72EB33582E689337007D1EB2 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 72EB33382E689336007D1EB2;
+					};
+				};
+			};
+			buildConfigurationList = 72EB33342E689336007D1EB2 /* Build configuration list for PBXProject "AdchainSDK-iOS-Sample" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 72EB33302E689336007D1EB2;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../AdchainSDK-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 72EB333A2E689336007D1EB2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				72EB33382E689336007D1EB2 /* AdchainSDK-iOS-Sample */,
+				72EB334E2E689337007D1EB2 /* AdchainSDK-iOS-SampleTests */,
+				72EB33582E689337007D1EB2 /* AdchainSDK-iOS-SampleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		72EB33372E689336007D1EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB334D2E689337007D1EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB33572E689337007D1EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		72EB33352E689336007D1EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB334B2E689337007D1EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		72EB33552E689337007D1EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		72EB33512E689337007D1EB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72EB33382E689336007D1EB2 /* AdchainSDK-iOS-Sample */;
+			targetProxy = 72EB33502E689337007D1EB2 /* PBXContainerItemProxy */;
+		};
+		72EB335B2E689337007D1EB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72EB33382E689336007D1EB2 /* AdchainSDK-iOS-Sample */;
+			targetProxy = 72EB335A2E689337007D1EB2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		72EB33632E689337007D1EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AdchainSDK-iOS-Sample/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-Sample";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		72EB33642E689337007D1EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AdchainSDK-iOS-Sample/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-Sample";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		72EB33652E689337007D1EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		72EB33662E689337007D1EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		72EB33682E689337007D1EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-SampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdchainSDK-iOS-Sample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AdchainSDK-iOS-Sample";
+			};
+			name = Debug;
+		};
+		72EB33692E689337007D1EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-SampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdchainSDK-iOS-Sample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AdchainSDK-iOS-Sample";
+			};
+			name = Release;
+		};
+		72EB336B2E689337007D1EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-SampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "AdchainSDK-iOS-Sample";
+			};
+			name = Debug;
+		};
+		72EB336C2E689337007D1EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7KZCV3JQFM;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.adchain.sample.AdchainSDK-iOS-SampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "AdchainSDK-iOS-Sample";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		72EB33342E689336007D1EB2 /* Build configuration list for PBXProject "AdchainSDK-iOS-Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72EB33652E689337007D1EB2 /* Debug */,
+				72EB33662E689337007D1EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72EB33622E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72EB33632E689337007D1EB2 /* Debug */,
+				72EB33642E689337007D1EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72EB33672E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-SampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72EB33682E689337007D1EB2 /* Debug */,
+				72EB33692E689337007D1EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72EB336A2E689337007D1EB2 /* Build configuration list for PBXNativeTarget "AdchainSDK-iOS-SampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72EB336B2E689337007D1EB2 /* Debug */,
+				72EB336C2E689337007D1EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../adchain-sdk-ios" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../adchain-sdk-ios";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		721A4A912E6895B4006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AdchainSDK;
+		};
+		721A4AAE2E689D0A006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AdchainSDK;
+		};
+		721A4AB12E692F91006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AdchainSDK;
+		};
+		721A4AB42E695AE6006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AdchainSDK;
+		};
+		721A4AB72E69665B006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AdchainSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 72EB33312E689336007D1EB2 /* Project object */;
+}

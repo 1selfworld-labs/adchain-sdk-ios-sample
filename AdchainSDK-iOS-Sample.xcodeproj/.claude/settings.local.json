@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xcodebuild:*)",
+      "Read(/Users/donghoon/Desktop/GIT/fly33499/new-ad-chain-sdk/AdchainSDK-iOS-Sample/AdchainSDK-iOS-Sample/App/**)",
+      "Read(/Users/donghoon/Desktop/GIT/fly33499/new-ad-chain-sdk/AdchainSDK-iOS/**)",
+      "Read(/Users/donghoon/Desktop/GIT/fly33499/new-ad-chain-sdk/AdchainSDK-iOS/AdchainSDK/Sources/Core/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
