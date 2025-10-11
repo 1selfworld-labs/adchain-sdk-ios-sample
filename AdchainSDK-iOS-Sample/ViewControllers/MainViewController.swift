@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
     private let missionButton = UIButton(type: .system)
     private let adchainHubButton = UIButton(type: .system)
     private let bannerButton = UIButton(type: .system)
+    private let adjoeButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,7 +160,15 @@ class MainViewController: UIViewController {
         bannerButton.layer.cornerRadius = 6
         bannerButton.translatesAutoresizingMaskIntoConstraints = false
         menuContainer.addSubview(bannerButton)
-        
+
+        // Adjoe button
+        adjoeButton.setTitle("Adjoe Offerwall Test", for: .normal)
+        adjoeButton.backgroundColor = .systemBlue
+        adjoeButton.setTitleColor(.white, for: .normal)
+        adjoeButton.layer.cornerRadius = 6
+        adjoeButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(adjoeButton)
+
         // Logout button
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.layer.borderWidth = 1
@@ -256,9 +265,15 @@ class MainViewController: UIViewController {
             bannerButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
             bannerButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
             bannerButton.heightAnchor.constraint(equalToConstant: 44),
-            
+
+            // Adjoe button
+            adjoeButton.topAnchor.constraint(equalTo: bannerButton.bottomAnchor, constant: 8),
+            adjoeButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            adjoeButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            adjoeButton.heightAnchor.constraint(equalToConstant: 44),
+
             // Logout button
-            logoutButton.topAnchor.constraint(equalTo: bannerButton.bottomAnchor, constant: 24),
+            logoutButton.topAnchor.constraint(equalTo: adjoeButton.bottomAnchor, constant: 24),
             logoutButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
             logoutButton.bottomAnchor.constraint(equalTo: menuContainer.bottomAnchor),
@@ -279,6 +294,7 @@ class MainViewController: UIViewController {
         missionButton.addTarget(self, action: #selector(openMission), for: .touchUpInside)
         adchainHubButton.addTarget(self, action: #selector(openAdchainHub), for: .touchUpInside)
         bannerButton.addTarget(self, action: #selector(performBannerTest), for: .touchUpInside)
+        adjoeButton.addTarget(self, action: #selector(performAdjoeTest), for: .touchUpInside)
     }
     
     @objc private func performSdkInitialization() {
@@ -441,7 +457,56 @@ class MainViewController: UIViewController {
             }
         )
     }
-    
+
+    @objc private func performAdjoeTest() {
+        print("\(TAG): Starting Adjoe Offerwall Test")
+
+        // Adjoe Offerwall Callback implementation (matching Android)
+        class AdjoeCallbackImpl: NSObject, OfferwallCallback {
+            weak var viewController: MainViewController?
+
+            init(viewController: MainViewController) {
+                self.viewController = viewController
+            }
+
+            func onOpened() {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Adjoe Offerwall opened successfully")
+            }
+
+            func onClosed() {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Adjoe Offerwall closed by user")
+            }
+
+            func onError(_ message: String) {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Adjoe Offerwall error: \(message)")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "Adjoe Error",
+                        message: message,
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    vc.present(alert, animated: true)
+                }
+            }
+
+            func onRewardEarned(_ amount: Int) {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): Adjoe reward earned: \(amount)")
+            }
+        }
+
+        // SDK의 Adjoe API 호출 (Android와 동일한 콜백 포함)
+        AdchainSdk.shared.openAdjoeOfferwall(
+            presentingViewController: self,
+            placementId: "main_adjoe_test",
+            callback: AdjoeCallbackImpl(viewController: self)
+        )
+    }
+
     private func updateUI() {
         let isLoggedIn = AdchainSdk.shared.isLoggedIn
 

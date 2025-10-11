@@ -2,6 +2,15 @@
   "originHash" : "456d58f20fca5f403acc47815366267059e4dd54b96203cbbd1919241e8d5e49",
   "pins" : [
     {
+      "identity" : "adjoe-monetize-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adjoeio/adjoe-monetize-spm",
+      "state" : {
+        "revision" : "3e96352c58afed1ef4aaf877b106bb6f6d6730e4",
+        "version" : "1.9.1"
+      }
+    },
+    {
       "identity" : "gzipswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/1024jp/GzipSwift",

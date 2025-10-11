@@ -227,7 +227,7 @@
 			mainGroup = 72EB33302E689336007D1EB2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../AdchainSDK-iOS" */,
+				721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../adchain-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 72EB333A2E689336007D1EB2 /* Products */;
