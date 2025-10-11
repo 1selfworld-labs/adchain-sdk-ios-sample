@@ -246,7 +246,10 @@ class MissionViewController: UIViewController {
     
     @objc private func emptyBannerTapped() {
         print("\(TAG): Opening offerwall from empty banner")
-        AdchainSdk.shared.openOfferwall(presentingViewController: self)
+        AdchainSdk.shared.openOfferwall(
+            presentingViewController: self,
+            placementId: "mission_empty_banner"
+        )
     }
     
     @objc private func retryButtonTapped() {
@@ -275,10 +278,10 @@ class MissionViewController: UIViewController {
     private func loadMissionData() {
         print("\(TAG): Loading mission data...")
         showLoadingState()
-        
-        // EXACT Android AdchainMission initialization
-        adchainMission = AdchainMission(unitId: "mission_unit_id")
-        
+
+        // AdchainMission initialization (unitId removed in latest SDK)
+        adchainMission = AdchainMission()
+
         // EXACT Android event listener pattern
         adchainMission?.eventsListener = self
         
@@ -468,11 +471,14 @@ extension MissionViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let mission = missions[indexPath.row]
-        
+
         // Handle offerwall promotion tap
         if mission.type == .offerwallPromotion {
             print("\(TAG): Offerwall promotion tapped")
-            AdchainSdk.shared.openOfferwall(presentingViewController: self)
+            AdchainSdk.shared.openOfferwall(
+                presentingViewController: self,
+                placementId: "mission_offerwall_promotion"
+            )
         }
         // Regular missions are handled by the cell itself
     }
@@ -480,19 +486,30 @@ extension MissionViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - AdchainMissionEventsListener
 extension MissionViewController: AdchainMissionEventsListener {
-    
+
     func onImpressed(_ mission: Mission) {
         print("\(TAG): Mission impressed: \(mission.id)")
     }
-    
+
     func onClicked(_ mission: Mission) {
         print("\(TAG): Mission clicked: \(mission.id)")
         // SDK will handle opening the WebView internally
     }
-    
+
     func onCompleted(_ mission: Mission) {
         print("\(TAG): Mission completed: \(mission.id)")
         // Refresh the list
+        loadMissionData()
+    }
+
+    func onProgressed(_ mission: Mission) {
+        print("\(TAG): Mission progressed: \(mission.id)")
+        // Optionally refresh or update UI based on progress
+    }
+
+    func onRefreshed(unitId: String?) {
+        print("\(TAG): Mission list refreshed, unitId: \(unitId ?? "nil")")
+        // Refresh the mission list
         loadMissionData()
     }
 }

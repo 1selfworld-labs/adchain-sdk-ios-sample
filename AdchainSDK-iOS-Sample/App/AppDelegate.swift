@@ -5,28 +5,36 @@ import AdchainSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // EXACT Android Constants
-    private let APP_KEY = "100000002"
-    private let APP_SECRET = "3ANgfF9Zfbm79oa6"
+    private let APP_KEY = "123456782"
+    private let APP_SECRET = "abcdefghigjk"
     private let TAG = "AdchainSample"
     
     var window: UIWindow?
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
+        // SDK 초기화를 자동으로 하지 않음
+        // MainViewController에서 선택적으로 초기화할 수 있도록 함
+        print("\(TAG): Application created - SDK initialization skipped for testing")
+
+        return true
+    }
+
+    // SDK 초기화 함수 (외부에서 호출 가능)
+    func initializeAdchainSdk() {
         print("\(TAG): Initializing Adchain SDK...")
-        
+
         // Exact Android SDK initialization pattern
         let config = AdchainSdkConfig.Builder(appKey: APP_KEY, appSecret: APP_SECRET)
             .setEnvironment(.development) // Android: AdchainSdkConfig.Environment.DEVELOPMENT
             .setTimeout(30000) // Android: 30000L (30 seconds)
             .build()
-        
-        AdchainSdk.shared.initialize(application: application, sdkConfig: config)
-        
+
+        // Fix: Use UIApplication.shared directly to avoid casting issues
+        AdchainSdk.shared.initialize(application: UIApplication.shared, sdkConfig: config)
+
         print("\(TAG): Adchain SDK initialized successfully with App KEY: \(APP_KEY)")
-        
-        return true
     }
     
     // MARK: UISceneSession Lifecycle

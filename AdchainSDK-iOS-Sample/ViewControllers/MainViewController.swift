@@ -8,11 +8,15 @@ class MainViewController: UIViewController {
     // UI Components matching Android
     private let loginContainer = UIView()
     private let menuContainer = UIView()
+    private let initSdkButton = UIButton(type: .system)
     private let userIdTextField = UITextField()
     private let userIdErrorLabel = UILabel()
     private let loginButton = UIButton(type: .system)
+    private let skipLoginButton = UIButton(type: .system)
     private let logoutButton = UIButton(type: .system)
     private let userInfoLabel = UILabel()
+    private var isSkipMode = false  // Track if user skipped login for testing
+    private var isSdkInitialized = false  // Track SDK initialization status
     private let nativeAdButton = UIButton(type: .system)
     private let missionButton = UIButton(type: .system)
     private let adchainHubButton = UIButton(type: .system)
@@ -65,10 +69,20 @@ class MainViewController: UIViewController {
         
         // User login label
         let userLoginLabel = UILabel()
-        userLoginLabel.text = "User Login"
+        userLoginLabel.text = "SDK Initialization and Login"
         userLoginLabel.font = .systemFont(ofSize: 18, weight: .bold)
         userLoginLabel.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(userLoginLabel)
+
+        // Initialize SDK button
+        initSdkButton.setTitle("Initialize SDK", for: .normal)
+        initSdkButton.backgroundColor = .systemGray
+        initSdkButton.setTitleColor(.white, for: .normal)
+        initSdkButton.layer.cornerRadius = 6
+        initSdkButton.layer.borderWidth = 1
+        initSdkButton.layer.borderColor = UIColor.systemBlue.cgColor
+        initSdkButton.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(initSdkButton)
         
         // User ID text field
         userIdTextField.placeholder = "User ID"
@@ -90,6 +104,12 @@ class MainViewController: UIViewController {
         loginButton.layer.cornerRadius = 6
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         cardView.addSubview(loginButton)
+
+        // Skip Login button
+        skipLoginButton.setTitle("Skip Login (Test without initialization)", for: .normal)
+        skipLoginButton.setTitleColor(.systemBlue, for: .normal)
+        skipLoginButton.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(skipLoginButton)
         
         // Configure menu container
         menuContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -169,24 +189,36 @@ class MainViewController: UIViewController {
             // User login label
             userLoginLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
             userLoginLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
-            
+
+            // Initialize SDK button
+            initSdkButton.topAnchor.constraint(equalTo: userLoginLabel.bottomAnchor, constant: 16),
+            initSdkButton.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            initSdkButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            initSdkButton.heightAnchor.constraint(equalToConstant: 44),
+
             // User ID text field
-            userIdTextField.topAnchor.constraint(equalTo: userLoginLabel.bottomAnchor, constant: 16),
+            userIdTextField.topAnchor.constraint(equalTo: initSdkButton.bottomAnchor, constant: 16),
             userIdTextField.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
             userIdTextField.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
             userIdTextField.heightAnchor.constraint(equalToConstant: 44),
-            
+
             // Error label
             userIdErrorLabel.topAnchor.constraint(equalTo: userIdTextField.bottomAnchor, constant: 4),
             userIdErrorLabel.leadingAnchor.constraint(equalTo: userIdTextField.leadingAnchor),
             userIdErrorLabel.trailingAnchor.constraint(equalTo: userIdTextField.trailingAnchor),
-            
+
             // Login button
             loginButton.topAnchor.constraint(equalTo: userIdErrorLabel.bottomAnchor, constant: 16),
             loginButton.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
-            loginButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 44),
+
+            // Skip Login button
+            skipLoginButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 8),
+            skipLoginButton.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            skipLoginButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
+            skipLoginButton.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
+            skipLoginButton.heightAnchor.constraint(equalToConstant: 44),
             
             // Menu container
             menuContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -239,7 +271,9 @@ class MainViewController: UIViewController {
     }
     
     private func setupListeners() {
+        initSdkButton.addTarget(self, action: #selector(performSdkInitialization), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(performLogin), for: .touchUpInside)
+        skipLoginButton.addTarget(self, action: #selector(performSkipLogin), for: .touchUpInside)
         logoutButton.addTarget(self, action: #selector(performLogout), for: .touchUpInside)
         nativeAdButton.addTarget(self, action: #selector(openNativeAd), for: .touchUpInside)
         missionButton.addTarget(self, action: #selector(openMission), for: .touchUpInside)
@@ -247,6 +281,36 @@ class MainViewController: UIViewController {
         bannerButton.addTarget(self, action: #selector(performBannerTest), for: .touchUpInside)
     }
     
+    @objc private func performSdkInitialization() {
+        if isSdkInitialized {
+            showToast("SDK already initialized")
+            return
+        }
+
+        print("\(TAG): Initializing SDK...")
+        do {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                showToast("Failed to get app delegate")
+                return
+            }
+
+            appDelegate.initializeAdchainSdk()
+            isSdkInitialized = true
+            showToast("SDK initialized successfully")
+            updateUI()
+        } catch {
+            print("\(TAG): SDK initialization failed: \(error)")
+            showToast("SDK initialization failed: \(error.localizedDescription)")
+        }
+    }
+
+    @objc private func performSkipLogin() {
+        print("\(TAG): Skipping login for testing without SDK initialization")
+        isSkipMode = true
+        showToast("Test mode: SDK not initialized, testing graceful error handling")
+        updateUI()
+    }
+
     @objc private func performLogin() {
         // EXACT Android login implementation
         guard let userId = userIdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -255,7 +319,7 @@ class MainViewController: UIViewController {
             userIdErrorLabel.isHidden = false
             return
         }
-        
+
         userIdErrorLabel.isHidden = true
         
         print("\(TAG): Attempting login with user ID: \(userId)")
@@ -302,8 +366,9 @@ class MainViewController: UIViewController {
     
     @objc private func performLogout() {
         print("\(TAG): Performing logout")
-        
+
         AdchainSdk.shared.logout()
+        isSkipMode = false
         showToast("Logged out successfully")
         updateUI()
     }
@@ -321,28 +386,36 @@ class MainViewController: UIViewController {
     @objc private func openAdchainHub() {
         // EXACT Android offerwall opening with callback
         print("\(TAG): Opening Adchain Hub (Offerwall)")
-        
-        AdchainSdk.shared.openOfferwall(presentingViewController: self)
+
+        AdchainSdk.shared.openOfferwall(
+            presentingViewController: self,
+            placementId: "adchain_hub"
+        )
     }
     
     @objc private func performBannerTest() {
         print("\(TAG): Starting Banner Test")
-        
+
         // SDK의 Banner API 호출
         AdchainBanner.shared.getBanner(
-            placementId: "test_placement_001",  // 테스트용 placement ID
+            placementId: "banner_test",  // Banner test placement ID
             onSuccess: { bannerResponse in
                 print("\(self.TAG): Banner loaded successfully")
-                
+
                 // 팝업으로 Banner 데이터 표시
+                let linkUrl = bannerResponse.linkType == "external"
+                    ? bannerResponse.externalLinkUrl
+                    : bannerResponse.internalLinkUrl
+
                 let message = """
                 Banner Data Received:
-                
+
                 Title: \(bannerResponse.titleText ?? "")
                 Image URL: \(bannerResponse.imageUrl ?? "")
-                Link URL: \(bannerResponse.linkUrl ?? "")
+                Link Type: \(bannerResponse.linkType ?? "")
+                Link URL: \(linkUrl ?? "")
                 """
-                
+
                 DispatchQueue.main.async {
                     let alert = UIAlertController(
                         title: "Banner Test Result",
@@ -355,7 +428,7 @@ class MainViewController: UIViewController {
             },
             onFailure: { error in
                 print("\(self.TAG): Banner load failed: \(error)")
-                
+
                 DispatchQueue.main.async {
                     let alert = UIAlertController(
                         title: "Banner Test Failed",
@@ -371,12 +444,26 @@ class MainViewController: UIViewController {
     
     private func updateUI() {
         let isLoggedIn = AdchainSdk.shared.isLoggedIn
-        
-        if isLoggedIn {
+
+        // Update SDK init button state
+        initSdkButton.isEnabled = !isSdkInitialized
+        initSdkButton.setTitle(isSdkInitialized ? "SDK Initialized ✓" : "Initialize SDK", for: .normal)
+        initSdkButton.backgroundColor = isSdkInitialized ? .systemGreen : .systemGray
+
+        switch (isSkipMode, isLoggedIn) {
+        case (true, _):  // Skip mode
             loginContainer.isHidden = true
             menuContainer.isHidden = false
-            userInfoLabel.text = "Logged in as: \(AdchainSdk.shared.getCurrentUser()?.userId ?? "Unknown")"
-        } else {
+            userInfoLabel.text = "⚠️ Test Mode: SDK Not Initialized\nTesting graceful error handling"
+            userInfoLabel.numberOfLines = 0
+
+        case (false, true):  // Logged in
+            loginContainer.isHidden = true
+            menuContainer.isHidden = false
+            userInfoLabel.text = "✓ Logged in as: \(AdchainSdk.shared.getCurrentUser()?.userId ?? "Unknown")"
+            userInfoLabel.numberOfLines = 1
+
+        case (false, false):  // Show login
             loginContainer.isHidden = false
             menuContainer.isHidden = true
             userIdTextField.text = ""

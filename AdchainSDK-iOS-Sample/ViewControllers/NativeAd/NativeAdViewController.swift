@@ -137,7 +137,10 @@ class NativeAdViewController: UIViewController {
     
     @objc private func emptyBannerTapped() {
         print("\(TAG): Opening offerwall from empty banner")
-        AdchainSdk.shared.openOfferwall(presentingViewController: self)
+        AdchainSdk.shared.openOfferwall(
+            presentingViewController: self,
+            placementId: "quiz_empty_banner"
+        )
     }
     
     @objc private func retryButtonTapped() {
@@ -159,31 +162,31 @@ class NativeAdViewController: UIViewController {
     private func loadQuizEvents() {
         print("\(TAG): Loading quiz events...")
         showLoadingState()
-        
-        // EXACT Android AdchainQuiz initialization
-        adchainQuiz = AdchainQuiz(unitId: "quiz_unit_id")
-        
+
+        // AdchainQuiz initialization (unitId removed in latest SDK)
+        adchainQuiz = AdchainQuiz()
+
         // EXACT Android event listener pattern
         adchainQuiz?.setQuizEventsListener(self)
-        
+
         // EXACT Android load pattern with callbacks
         adchainQuiz?.load(
-            onSuccess: { [weak self] events in
+            onSuccess: { [weak self] response in
                 guard let self = self else { return }
-                
+
                 DispatchQueue.main.async {
-                    if events.isEmpty {
+                    if response.events.isEmpty {
                         print("\(self.TAG): No quiz events available")
                         self.showEmptyState()
                     } else {
-                        print("\(self.TAG): Loaded \(events.count) quiz events")
-                        self.showSuccessState(events: Array(events.prefix(3))) // Show max 3 items like Android
+                        print("\(self.TAG): Loaded \(response.events.count) quiz events")
+                        self.showSuccessState(events: Array(response.events.prefix(3))) // Show max 3 items like Android
                     }
                 }
             },
             onFailure: { [weak self] error in
                 guard let self = self else { return }
-                
+
                 DispatchQueue.main.async {
                     print("\(self.TAG): Failed to load quiz events: \(error)")
                     self.showErrorState()
