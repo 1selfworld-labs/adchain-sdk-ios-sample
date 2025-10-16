@@ -22,6 +22,7 @@ iOS용 AdChain SDK를 통합한 샘플 애플리케이션입니다. SDK의 주�
 - ✅ Mission (미션/리워드) 시스템
 - ✅ Offerwall (AdChain Hub)
 - ✅ Banner 광고
+- ✅ ADJOE Offerwall
 
 ## 주요 기능
 
@@ -49,6 +50,13 @@ iOS용 AdChain SDK를 통합한 샘플 애플리케이션입니다. SDK의 주�
 
 ### 6. Banner Ads
 배너 광고 정보를 조회하고 표시합니다.
+
+### 7. ADJOE Offerwall
+ADJOE의 PlaytimeWeb 기반 오퍼월을 표시합니다.
+- ADJOE 전용 광고 인벤토리
+- 리워드 획득 추적
+- 상태 콜백 (열림/닫힘/에러/리워드 획득)
+- Gender/Age 정보 자동 전달
 
 ## 요구사항
 
@@ -177,10 +185,10 @@ let user = AdchainSdkUser(
 AdchainSdk.shared.login(adchainSdkUser: user, listener: self)
 ```
 
-### adjoe 통합 시 Gender/Age 전달
+### ADJOE를 위한 사용자 정보 전달 (Gender/Age)
 
-adjoe SDK는 사용자의 성별과 나이 정보를 활용하여 더 타겟팅된 광고를 제공합니다.
-AdChain SDK는 로그인 시 제공된 사용자 정보를 자동으로 adjoe PlaytimeWeb URL 파라미터에 추가합니다.
+ADJOE SDK는 사용자의 성별과 나이 정보를 활용하여 더 타겟팅된 광고를 제공합니다.
+AdChain SDK는 로그인 시 제공된 사용자 정보를 자동으로 ADJOE PlaytimeWeb URL 파라미터에 추가합니다.
 
 #### 사용자 프로필 정보 설정
 
@@ -314,6 +322,36 @@ AdchainBanner.shared.getBanner(
 )
 ```
 
+### 7. ADJOE Offerwall 열기
+
+```swift
+// OfferwallCallback 구현
+class AdjoeCallbackImpl: OfferwallCallback {
+    func onOpened() {
+        print("ADJOE Offerwall opened")
+    }
+
+    func onClosed() {
+        print("ADJOE Offerwall closed")
+    }
+
+    func onError(_ message: String) {
+        print("ADJOE Error: \(message)")
+    }
+
+    func onRewardEarned(_ amount: Int) {
+        print("ADJOE Reward earned: \(amount)")
+    }
+}
+
+// ADJOE Offerwall 열기
+AdchainSdk.shared.openAdjoeOfferwall(
+    presentingViewController: self,
+    placementId: "adjoe_main",
+    callback: AdjoeCallbackImpl()
+)
+```
+
 ## 주요 API 사용법
 
 ### 환경 설정
@@ -355,6 +393,30 @@ extension YourViewController: AdchainMissionEventsListener {
     func onCompleted(_ mission: Mission) { }
     func onProgressed(_ mission: Mission) { }
     func onRefreshed(unitId: String?) { }
+}
+```
+
+#### ADJOE Offerwall Callbacks
+
+```swift
+class AdjoeCallbackImpl: OfferwallCallback {
+    func onOpened() {
+        print("ADJOE Offerwall opened successfully")
+    }
+
+    func onClosed() {
+        print("ADJOE Offerwall closed by user")
+    }
+
+    func onError(_ message: String) {
+        print("ADJOE Offerwall error: \(message)")
+        // 에러 처리 로직
+    }
+
+    func onRewardEarned(_ amount: Int) {
+        print("ADJOE reward earned: \(amount)")
+        // 리워드 처리 로직
+    }
 }
 ```
 
