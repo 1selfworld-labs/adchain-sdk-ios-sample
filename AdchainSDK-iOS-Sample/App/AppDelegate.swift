@@ -27,8 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Exact Android SDK initialization pattern
         let config = AdchainSdkConfig.Builder(appKey: APP_KEY, appSecret: APP_SECRET)
-            .setEnvironment(.development) // Android: AdchainSdkConfig.Environment.DEVELOPMENT
-            .setTimeout(30000) // Android: 30000L (30 seconds)
+            .setEnvironment(.production)
+            .setTimeout(30000)
             .build()
 
         // Fix: Use UIApplication.shared directly to avoid casting issues

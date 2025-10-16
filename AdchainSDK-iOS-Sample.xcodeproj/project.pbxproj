@@ -579,14 +579,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCSwiftPackageProductDependency section */
-		721A4ABC2E696701006C1883 /* AdchainSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */;
-			productName = AdchainSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -597,6 +589,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		721A4ABC2E696701006C1883 /* AdchainSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */;
+			productName = AdchainSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 72EB33312E689336007D1EB2 /* Project object */;
 }

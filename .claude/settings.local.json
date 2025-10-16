@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/donghoon/Desktop/GIT/fly33499/ad-chain-sdk/**)",
+      "Read(//Users/donghoon/Desktop/GIT/fly33499/ad-chain-sdk/adchain-sdk-ios/**)",
+      "Bash(cat:*)",
+      "Bash(pod:*)",
+      "Bash(find:*)",
+      "Bash(otool -L:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
