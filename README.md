@@ -56,7 +56,7 @@ iOS용 AdChain SDK를 통합한 샘플 애플리케이션입니다. SDK의 주�
 - **Xcode**: 14.0 이상
 - **Swift**: 5.5 이상
 - **Dependencies**:
-  - AdChainSDK 1.0.37+ (Swift Package Manager)
+  - AdChainSDK 1.0.38+ (Swift Package Manager)
 
 ## 설치 및 실행
 
@@ -79,7 +79,7 @@ Xcode가 자동으로 Swift Package Manager를 통해 SDK를 다운로드합니�
 
 **패키지 정보:**
 - Repository: `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`
-- Version: 1.0.37 이상 (자동 업데이트: Up to Next Major)
+- Version: 1.0.38 이상 (자동 업데이트: Up to Next Major)
 
 #### 3. 설정 변경
 
