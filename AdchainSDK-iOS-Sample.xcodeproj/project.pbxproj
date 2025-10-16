@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		721A4A922E6895B4006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4A912E6895B4006C1883 /* AdchainSDK */; };
-		721A4AAF2E689D0A006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AAE2E689D0A006C1883 /* AdchainSDK */; };
-		721A4AB22E692F91006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB12E692F91006C1883 /* AdchainSDK */; };
-		721A4AB52E695AE6006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB42E695AE6006C1883 /* AdchainSDK */; };
-		721A4AB82E69665B006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4AB72E69665B006C1883 /* AdchainSDK */; };
+		721A4ABD2E696702006C1883 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 721A4ABC2E696701006C1883 /* AdchainSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,11 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				721A4AB52E695AE6006C1883 /* AdchainSDK in Frameworks */,
-				721A4AAF2E689D0A006C1883 /* AdchainSDK in Frameworks */,
-				721A4A922E6895B4006C1883 /* AdchainSDK in Frameworks */,
-				721A4AB22E692F91006C1883 /* AdchainSDK in Frameworks */,
-				721A4AB82E69665B006C1883 /* AdchainSDK in Frameworks */,
+				721A4ABD2E696702006C1883 /* AdchainSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,11 +130,7 @@
 			);
 			name = "AdchainSDK-iOS-Sample";
 			packageProductDependencies = (
-				721A4A912E6895B4006C1883 /* AdchainSDK */,
-				721A4AAE2E689D0A006C1883 /* AdchainSDK */,
-				721A4AB12E692F91006C1883 /* AdchainSDK */,
-				721A4AB42E695AE6006C1883 /* AdchainSDK */,
-				721A4AB72E69665B006C1883 /* AdchainSDK */,
+				721A4ABC2E696701006C1883 /* AdchainSDK */,
 			);
 			productName = "AdchainSDK-iOS-Sample";
 			productReference = 72EB33392E689336007D1EB2 /* AdchainSDK-iOS-Sample.app */;
@@ -227,7 +215,7 @@
 			mainGroup = 72EB33302E689336007D1EB2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../adchain-sdk-ios" */,
+				721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 72EB333A2E689336007D1EB2 /* Products */;
@@ -591,35 +579,24 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		721A4AB62E69665B006C1883 /* XCLocalSwiftPackageReference "../adchain-sdk-ios" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../adchain-sdk-ios";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		721A4A912E6895B4006C1883 /* AdchainSDK */ = {
+		721A4ABC2E696701006C1883 /* AdchainSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AdchainSDK;
-		};
-		721A4AAE2E689D0A006C1883 /* AdchainSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AdchainSDK;
-		};
-		721A4AB12E692F91006C1883 /* AdchainSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AdchainSDK;
-		};
-		721A4AB42E695AE6006C1883 /* AdchainSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AdchainSDK;
-		};
-		721A4AB72E69665B006C1883 /* AdchainSDK */ = {
-			isa = XCSwiftPackageProductDependency;
+			package = 721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */;
 			productName = AdchainSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		721A4ABC2E696700006C1883 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/1selfworld-labs/adchain-sdk-ios-release.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.37;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 72EB33312E689336007D1EB2 /* Project object */;
 }

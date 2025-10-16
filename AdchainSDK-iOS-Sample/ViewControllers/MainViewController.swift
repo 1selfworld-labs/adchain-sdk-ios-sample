@@ -22,7 +22,13 @@ class MainViewController: UIViewController {
     private let adchainHubButton = UIButton(type: .system)
     private let bannerButton = UIButton(type: .system)
     private let adjoeButton = UIButton(type: .system)
-    
+
+    // App Launch Test
+    private let appLaunchTestLabel = UILabel()
+    private let appLaunchTextField = UITextField()
+    private let appLaunchErrorLabel = UILabel()
+    private let addTestButton = UIButton(type: .system)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -169,6 +175,33 @@ class MainViewController: UIViewController {
         adjoeButton.translatesAutoresizingMaskIntoConstraints = false
         menuContainer.addSubview(adjoeButton)
 
+        // App Launch Test Section
+        appLaunchTestLabel.text = "App Launch Test"
+        appLaunchTestLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        appLaunchTestLabel.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(appLaunchTestLabel)
+
+        // App Launch Text Field
+        appLaunchTextField.placeholder = "URL Scheme (e.g., instagram://)"
+        appLaunchTextField.borderStyle = .roundedRect
+        appLaunchTextField.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(appLaunchTextField)
+
+        // App Launch Error Label
+        appLaunchErrorLabel.textColor = .systemRed
+        appLaunchErrorLabel.font = .systemFont(ofSize: 14)
+        appLaunchErrorLabel.isHidden = true
+        appLaunchErrorLabel.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(appLaunchErrorLabel)
+
+        // Add Test Button
+        addTestButton.setTitle("Add Test Button to Offerwall", for: .normal)
+        addTestButton.layer.borderWidth = 1
+        addTestButton.layer.borderColor = UIColor.systemBlue.cgColor
+        addTestButton.layer.cornerRadius = 6
+        addTestButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(addTestButton)
+
         // Logout button
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.layer.borderWidth = 1
@@ -272,8 +305,29 @@ class MainViewController: UIViewController {
             adjoeButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
             adjoeButton.heightAnchor.constraint(equalToConstant: 44),
 
+            // App Launch Test Label
+            appLaunchTestLabel.topAnchor.constraint(equalTo: adjoeButton.bottomAnchor, constant: 16),
+            appLaunchTestLabel.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+
+            // App Launch Text Field
+            appLaunchTextField.topAnchor.constraint(equalTo: appLaunchTestLabel.bottomAnchor, constant: 12),
+            appLaunchTextField.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            appLaunchTextField.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            appLaunchTextField.heightAnchor.constraint(equalToConstant: 44),
+
+            // App Launch Error Label
+            appLaunchErrorLabel.topAnchor.constraint(equalTo: appLaunchTextField.bottomAnchor, constant: 4),
+            appLaunchErrorLabel.leadingAnchor.constraint(equalTo: appLaunchTextField.leadingAnchor),
+            appLaunchErrorLabel.trailingAnchor.constraint(equalTo: appLaunchTextField.trailingAnchor),
+
+            // Add Test Button
+            addTestButton.topAnchor.constraint(equalTo: appLaunchErrorLabel.bottomAnchor, constant: 8),
+            addTestButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            addTestButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            addTestButton.heightAnchor.constraint(equalToConstant: 44),
+
             // Logout button
-            logoutButton.topAnchor.constraint(equalTo: adjoeButton.bottomAnchor, constant: 24),
+            logoutButton.topAnchor.constraint(equalTo: addTestButton.bottomAnchor, constant: 24),
             logoutButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
             logoutButton.bottomAnchor.constraint(equalTo: menuContainer.bottomAnchor),
@@ -295,6 +349,7 @@ class MainViewController: UIViewController {
         adchainHubButton.addTarget(self, action: #selector(openAdchainHub), for: .touchUpInside)
         bannerButton.addTarget(self, action: #selector(performBannerTest), for: .touchUpInside)
         adjoeButton.addTarget(self, action: #selector(performAdjoeTest), for: .touchUpInside)
+        addTestButton.addTarget(self, action: #selector(performAddTestButton), for: .touchUpInside)
     }
     
     @objc private func performSdkInitialization() {
@@ -505,6 +560,56 @@ class MainViewController: UIViewController {
             placementId: "main_adjoe_test",
             callback: AdjoeCallbackImpl(viewController: self)
         )
+    }
+
+    @objc private func performAddTestButton() {
+        guard let urlScheme = appLaunchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !urlScheme.isEmpty else {
+            appLaunchErrorLabel.text = "URL Scheme을 입력하세요 (예: instagram://)"
+            appLaunchErrorLabel.isHidden = false
+            return
+        }
+
+        appLaunchErrorLabel.isHidden = true
+        print("\(TAG): Preparing app launch test for URL scheme: \(urlScheme)")
+
+        // 테스트 코드를 클립보드에 복사
+        let testCode = """
+window.AdchainBridge.checkAppInstalled('\(urlScheme)');
+window.onAppInstalledResult = function(result) { alert('설치: ' + result.installed + '\\n식별자: ' + result.identifier); };
+"""
+
+        UIPasteboard.general.string = testCode
+
+        // 안내 다이얼로그 표시
+        let alert = UIAlertController(
+            title: "앱 실행 테스트 방법",
+            message: """
+            테스트 코드가 클립보드에 복사되었습니다!
+
+            테스트 방법:
+            1. "Adchain Hub Test" 버튼을 눌러 Offerwall를 엽니다
+            2. Safari Web Inspector로 콘솔을 엽니다
+            3. 복사된 코드를 콘솔에 붙여넣고 실행합니다
+
+            테스트 URL Scheme: \(urlScheme)
+
+            또는 아래 버튼을 눌러 Offerwall를 바로 열 수 있습니다.
+            """,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "Offerwall 열기", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            AdchainSdk.shared.openOfferwall(
+                presentingViewController: self,
+                placementId: "app_launch_test"
+            )
+            self.showToast("콘솔에서 테스트 코드를 실행하세요")
+        })
+
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
     }
 
     private func updateUI() {

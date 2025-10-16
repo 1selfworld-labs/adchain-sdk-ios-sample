@@ -52,36 +52,36 @@ iOS용 AdChain SDK를 통합한 샘플 애플리케이션입니다. SDK의 주�
 
 ## 요구사항
 
-- **iOS**: 15.0 이상
-- **Xcode**: 16.4 이상
-- **Swift**: 5.0 이상
+- **iOS**: 14.0 이상
+- **Xcode**: 14.0 이상
+- **Swift**: 5.5 이상
 - **Dependencies**:
-  - AdChainSDK (로컬 참조: `../adchain-sdk-ios`)
+  - AdChainSDK 1.0.37+ (Swift Package Manager)
 
 ## 설치 및 실행
 
-### 1. 저장소 클론
+### 방법 1: 원격 SDK 사용 (권장)
+
+#### 1. 저장소 클론
 
 ```bash
 git clone https://github.com/1selfworld-labs/adchain-sdk-ios-sample.git
 cd adchain-sdk-ios-sample
 ```
 
-### 2. SDK 확인
-
-프로젝트는 로컬 SDK를 참조합니다. 상위 폴더에 `adchain-sdk-ios`가 있는지 확인하세요:
-
-```bash
-ls ../adchain-sdk-ios
-```
-
-### 3. 프로젝트 열기
+#### 2. 프로젝트 열기
 
 ```bash
 open AdchainSDK-iOS-Sample.xcodeproj
 ```
 
-### 4. 설정 변경
+Xcode가 자동으로 Swift Package Manager를 통해 SDK를 다운로드합니다.
+
+**패키지 정보:**
+- Repository: `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`
+- Version: 1.0.37 이상 (자동 업데이트: Up to Next Major)
+
+#### 3. 설정 변경
 
 **AppDelegate.swift**에서 앱 인증 정보를 확인/수정하세요:
 
@@ -96,10 +96,34 @@ private let APP_SECRET = "abcdefghigjk"
 .setEnvironment(.development)  // .production, .staging, .development
 ```
 
-### 5. 실행
+#### 4. 실행
 
 - 시뮬레이터 또는 실제 디바이스 선택
 - `Cmd + R` 또는 Run 버튼 클릭
+
+### 방법 2: 로컬 SDK 사용 (개발용)
+
+개발 중이거나 SDK 소스코드에 접근이 필요한 경우에 사용하세요.
+
+#### 1. SDK 및 샘플 앱 클론
+
+```bash
+# 상위 폴더에서
+git clone https://github.com/1selfworld-labs/adchain-sdk-ios.git
+git clone https://github.com/1selfworld-labs/adchain-sdk-ios-sample.git
+```
+
+#### 2. 프로젝트에서 패키지 참조 변경
+
+1. Xcode에서 `AdchainSDK-iOS-Sample.xcodeproj` 열기
+2. Project Navigator에서 프로젝트 선택
+3. "Package Dependencies" 탭
+4. 기존 원격 패키지 제거
+5. "+" 버튼 → "Add Local..." → `../adchain-sdk-ios` 선택
+
+#### 3. 설정 변경 및 실행
+
+위 방법 1의 3-4단계와 동일
 
 ## 프로젝트 구조
 
@@ -151,6 +175,86 @@ let user = AdchainSdkUser(
 )
 
 AdchainSdk.shared.login(adchainSdkUser: user, listener: self)
+```
+
+### adjoe 통합 시 Gender/Age 전달
+
+adjoe SDK는 사용자의 성별과 나이 정보를 활용하여 더 타겟팅된 광고를 제공합니다.
+AdChain SDK는 로그인 시 제공된 사용자 정보를 자동으로 adjoe PlaytimeWeb URL 파라미터에 추가합니다.
+
+#### 사용자 프로필 정보 설정
+
+```swift
+let user = AdchainSdkUser(
+    userId: "user_123",
+    gender: .male,      // 성별 설정 (선택사항)
+    birthYear: 1990     // 출생년도 설정 (선택사항)
+)
+
+AdchainSdk.shared.login(adchainSdkUser: user, listener: self)
+```
+
+#### 지원되는 값
+
+| 속성 | 타입 | 설명 | 필수 여부 |
+|------|------|------|-----------|
+| `gender` | `AdchainSdkUser.Gender?` | `.male`, `.female`, `.other` | 선택 |
+| `birthYear` | `Int?` | 출생년도 (예: 1990) | 선택 |
+
+#### 중요 사항
+
+1. **Optional 필드**: gender와 birthYear는 선택사항입니다
+   - 정보가 없으면 nil로 전달 → adjoe는 정보 없이 동작
+   - 정보가 있으면 자동으로 adjoe PlaytimeWeb URL에 추가됩니다
+
+2. **재초기화 불가**: adjoe SDK는 재초기화를 지원하지 않습니다
+   - **로그인 시점에 모든 정보를 제공**해야 합니다
+   - 나중에 정보를 얻은 경우: 로그아웃 후 재로그인 필요
+
+3. **자동 변환**: AdChain SDK가 자동으로 처리합니다
+   - iOS는 PlaytimeWeb (WebView) 방식 사용
+   - Gender → URL 파라미터 ("male"/"female"/"unknown")
+   - BirthYear → Age 계산하여 URL 파라미터로 전달
+
+#### 예시 코드
+
+**정보가 있는 경우:**
+```swift
+// 사용자 정보를 모두 알고 있는 경우
+let user = AdchainSdkUser(
+    userId: "user_123",
+    gender: .male,
+    birthYear: 1990
+)
+
+AdchainSdk.shared.login(adchainSdkUser: user, listener: self)
+```
+
+**정보가 없는 경우:**
+```swift
+// 사용자 정보를 모르는 경우 (adjoe는 정보 없이 동작)
+let user = AdchainSdkUser(
+    userId: "user_123",
+    gender: nil,
+    birthYear: nil
+)
+
+AdchainSdk.shared.login(adchainSdkUser: user, listener: self)
+```
+
+**나중에 정보를 얻은 경우:**
+```swift
+// 1. 로그아웃
+AdchainSdk.shared.logout()
+
+// 2. 새로운 정보로 재로그인
+let updatedUser = AdchainSdkUser(
+    userId: "user_123",
+    gender: .female,
+    birthYear: 1995
+)
+
+AdchainSdk.shared.login(adchainSdkUser: updatedUser, listener: self)
 ```
 
 ### 3. Quiz 로드
