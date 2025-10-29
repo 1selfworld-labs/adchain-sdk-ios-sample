@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
     private let adchainHubButton = UIButton(type: .system)
     private let bannerButton = UIButton(type: .system)
     private let adjoeButton = UIButton(type: .system)
+    private let nestAdsButton = UIButton(type: .system)
 
     // App Launch Test
     private let appLaunchTestLabel = UILabel()
@@ -175,6 +176,14 @@ class MainViewController: UIViewController {
         adjoeButton.translatesAutoresizingMaskIntoConstraints = false
         menuContainer.addSubview(adjoeButton)
 
+        // NestAds button
+        nestAdsButton.setTitle("NestAds Offerwall Test", for: .normal)
+        nestAdsButton.backgroundColor = .systemGreen
+        nestAdsButton.setTitleColor(.white, for: .normal)
+        nestAdsButton.layer.cornerRadius = 6
+        nestAdsButton.translatesAutoresizingMaskIntoConstraints = false
+        menuContainer.addSubview(nestAdsButton)
+
         // App Launch Test Section
         appLaunchTestLabel.text = "App Launch Test"
         appLaunchTestLabel.font = .systemFont(ofSize: 16, weight: .bold)
@@ -305,8 +314,14 @@ class MainViewController: UIViewController {
             adjoeButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
             adjoeButton.heightAnchor.constraint(equalToConstant: 44),
 
+            // NestAds button
+            nestAdsButton.topAnchor.constraint(equalTo: adjoeButton.bottomAnchor, constant: 8),
+            nestAdsButton.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
+            nestAdsButton.trailingAnchor.constraint(equalTo: menuContainer.trailingAnchor),
+            nestAdsButton.heightAnchor.constraint(equalToConstant: 44),
+
             // App Launch Test Label
-            appLaunchTestLabel.topAnchor.constraint(equalTo: adjoeButton.bottomAnchor, constant: 16),
+            appLaunchTestLabel.topAnchor.constraint(equalTo: nestAdsButton.bottomAnchor, constant: 16),
             appLaunchTestLabel.leadingAnchor.constraint(equalTo: menuContainer.leadingAnchor),
 
             // App Launch Text Field
@@ -349,6 +364,7 @@ class MainViewController: UIViewController {
         adchainHubButton.addTarget(self, action: #selector(openAdchainHub), for: .touchUpInside)
         bannerButton.addTarget(self, action: #selector(performBannerTest), for: .touchUpInside)
         adjoeButton.addTarget(self, action: #selector(performAdjoeTest), for: .touchUpInside)
+        nestAdsButton.addTarget(self, action: #selector(performNestAdsTest), for: .touchUpInside)
         addTestButton.addTarget(self, action: #selector(performAddTestButton), for: .touchUpInside)
     }
     
@@ -359,19 +375,36 @@ class MainViewController: UIViewController {
         }
 
         print("\(TAG): Initializing SDK...")
-        do {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                showToast("Failed to get app delegate")
-                return
-            }
 
-            appDelegate.initializeAdchainSdk()
-            isSdkInitialized = true
-            showToast("SDK initialized successfully")
-            updateUI()
-        } catch {
-            print("\(TAG): SDK initialization failed: \(error)")
-            showToast("SDK initialization failed: \(error.localizedDescription)")
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            showToast("Failed to get app delegate")
+            return
+        }
+
+        // Initialize SDK
+        appDelegate.initializeAdchainSdk()
+
+        // ⭐ 새로운 코드: 실제 초기화 완료 대기
+        let maxWaitTime = 5.0  // 최대 5초 대기
+        let pollInterval = 0.1  // 0.1초마다 체크
+        var elapsedTime = 0.0
+
+        Timer.scheduledTimer(withTimeInterval: pollInterval, repeats: true) { timer in
+            elapsedTime += pollInterval
+
+            // SDK 초기화 완료 확인
+            if AdchainSdk.shared.isInitialized() {
+                timer.invalidate()
+                self.isSdkInitialized = true
+                self.showToast("SDK initialized successfully")
+                self.updateUI()
+                print("\(self.TAG): SDK initialized in \(elapsedTime)s")
+            } else if elapsedTime >= maxWaitTime {
+                // 타임아웃
+                timer.invalidate()
+                self.showToast("SDK initialization timeout. Please check network.")
+                print("\(self.TAG): SDK initialization timeout after \(maxWaitTime)s")
+            }
         }
     }
 
@@ -559,6 +592,55 @@ class MainViewController: UIViewController {
             presentingViewController: self,
             placementId: "main_adjoe_test",
             callback: AdjoeCallbackImpl(viewController: self)
+        )
+    }
+
+    @objc private func performNestAdsTest() {
+        print("\(TAG): Starting NestAds Offerwall Test")
+
+        // NestAds Offerwall Callback implementation
+        class NestAdsCallbackImpl: NSObject, OfferwallCallback {
+            weak var viewController: MainViewController?
+
+            init(viewController: MainViewController) {
+                self.viewController = viewController
+            }
+
+            func onOpened() {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): NestAds Offerwall opened successfully")
+            }
+
+            func onClosed() {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): NestAds Offerwall closed by user")
+            }
+
+            func onError(_ message: String) {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): NestAds Offerwall error: \(message)")
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "NestAds Error",
+                        message: message,
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    vc.present(alert, animated: true)
+                }
+            }
+
+            func onRewardEarned(_ amount: Int) {
+                guard let vc = viewController else { return }
+                print("\(vc.TAG): NestAds reward earned: \(amount)")
+            }
+        }
+
+        // SDK의 openOfferwallNestAds API 호출
+        AdchainSdk.shared.openOfferwallNestAds(
+            presentingViewController: self,
+            placementId: "c3c3fc08-2ba1-4243-93f7-f4d0d71c23a3",
+            callback: NestAdsCallbackImpl(viewController: self)
         )
     }
 
