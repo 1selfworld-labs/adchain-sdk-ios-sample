@@ -18,11 +18,14 @@ iOS용 AdChain SDK를 통합한 샘플 애플리케이션입니다. SDK의 주�
 이 샘플 앱은 AdChain SDK의 다음 기능들을 구현합니다:
 
 - ✅ SDK 초기화 및 사용자 로그인
+- ✅ Tab 기반 UI (홈/혜택)
+- ✅ AdchainOfferwallView 통합 (WebView ↔ App 양방향 통신)
 - ✅ Quiz (네이티브 광고) 시스템
 - ✅ Mission (미션/리워드) 시스템
 - ✅ Offerwall (AdChain Hub)
 - ✅ Banner 광고
 - ✅ ADJOE Offerwall
+- ✅ NestAds Offerwall
 
 ## 주요 기능
 
@@ -58,13 +61,26 @@ ADJOE의 PlaytimeWeb 기반 오퍼월을 표시합니다.
 - 상태 콜백 (열림/닫힘/에러/리워드 획득)
 - Gender/Age 정보 자동 전달
 
+### 8. NestAds Offerwall
+NestAds의 WebView 기반 오퍼월을 표시합니다.
+- NestAds 전용 광고 인벤토리
+- 리워드 획득 추적
+- 상태 콜백 (열림/닫힘/에러/리워드 획득)
+- Placement ID 기반 광고 표시
+
+### 9. AdchainOfferwallView (Benefits Tab)
+WebView 기반 Offerwall을 UIViewController에 직접 통합합니다.
+- UIView로 삽입 가능한 Offerwall
+- WebView ↔ App 양방향 통신 (Custom Events, Data Requests)
+- Tab 구조에 최적화된 구현
+
 ## 요구사항
 
 - **iOS**: 14.0 이상
 - **Xcode**: 14.0 이상
 - **Swift**: 5.5 이상
 - **Dependencies**:
-  - AdChainSDK 1.0.38+ (Swift Package Manager)
+  - AdChainSDK 1.0.47+ (Swift Package Manager)
 
 ## 설치 및 실행
 
@@ -87,7 +103,7 @@ Xcode가 자동으로 Swift Package Manager를 통해 SDK를 다운로드합니�
 
 **패키지 정보:**
 - Repository: `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`
-- Version: 1.0.38 이상 (자동 업데이트: Up to Next Major)
+- Version: 1.0.47 이상 (자동 업데이트: Up to Next Major)
 
 #### 3. 설정 변경
 
@@ -139,9 +155,12 @@ git clone https://github.com/1selfworld-labs/adchain-sdk-ios-sample.git
 AdchainSDK-iOS-Sample/
 ├── App/
 │   ├── AppDelegate.swift          # SDK 초기화 로직
-│   └── SceneDelegate.swift        # Scene 설정
+│   └── SceneDelegate.swift        # Scene 설정 (LoginViewController로 시작)
 ├── ViewControllers/
-│   ├── MainViewController.swift   # 메인 화면 (로그인/메뉴)
+│   ├── LoginViewController.swift  # SDK 초기화 및 로그인 화면
+│   ├── TabBarController.swift     # 탭 컨테이너 (홈/혜택)
+│   ├── HomeViewController.swift   # 홈 화면 (SDK 기능 메뉴)
+│   ├── BenefitsViewController.swift  # 혜택 탭 (AdchainOfferwallView)
 │   ├── Mission/
 │   │   ├── MissionViewController.swift
 │   │   ├── MissionTableViewCell.swift
@@ -352,6 +371,97 @@ AdchainSdk.shared.openAdjoeOfferwall(
 )
 ```
 
+### 8. NestAds Offerwall 열기
+
+```swift
+// OfferwallCallback 구현
+class NestAdsCallbackImpl: OfferwallCallback {
+    func onOpened() {
+        print("NestAds Offerwall opened")
+    }
+
+    func onClosed() {
+        print("NestAds Offerwall closed")
+    }
+
+    func onError(_ message: String) {
+        print("NestAds Error: \(message)")
+    }
+
+    func onRewardEarned(_ amount: Int) {
+        print("NestAds Reward earned: \(amount)")
+    }
+}
+
+// NestAds Offerwall 열기
+AdchainSdk.shared.openOfferwallNestAds(
+    presentingViewController: self,
+    placementId: "c3c3fc08-2ba1-4243-93f7-f4d0d71c23a3",
+    callback: NestAdsCallbackImpl()
+)
+```
+
+### 9. AdchainOfferwallView 사용
+
+```swift
+import AdchainSDK
+
+class BenefitsViewController: UIViewController {
+    private var offerwallView: AdchainOfferwallView?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // AdchainOfferwallView 생성 및 레이아웃
+        let offerwallView = AdchainOfferwallView()
+        offerwallView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(offerwallView)
+        self.offerwallView = offerwallView
+
+        NSLayoutConstraint.activate([
+            offerwallView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            offerwallView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            offerwallView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            offerwallView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        // 콜백 설정
+        offerwallView.setCallback(OfferwallCallbackImpl())
+        offerwallView.setEventCallback(EventCallbackImpl())
+
+        // Offerwall 로드
+        offerwallView.loadOfferwall(placementId: "sample-test-ios-placement")
+    }
+}
+
+// Custom Event 처리
+class EventCallbackImpl: OfferwallEventCallback {
+    func onCustomEvent(eventType: String, payload: [String: Any]) {
+        switch eventType {
+        case "show_toast":
+            let message = payload["message"] as? String ?? ""
+            print("Toast: \(message)")
+        case "navigate":
+            let screen = payload["screen"] as? String ?? ""
+            print("Navigate to: \(screen)")
+        default:
+            print("Event: \(eventType)")
+        }
+    }
+
+    func onDataRequest(requestId: String, requestType: String, params: [String: Any]) -> [String: Any]? {
+        switch requestType {
+        case "user_points":
+            return ["points": 12345, "currency": "KRW"]
+        case "user_profile":
+            return ["userId": "test_123", "nickname": "TestPlayer"]
+        default:
+            return nil
+        }
+    }
+}
+```
+
 ## 주요 API 사용법
 
 ### 환경 설정
@@ -468,5 +578,6 @@ Cmd + R          # Run
 
 ---
 
-**버전**: 1.0.0
-**최종 업데이트**: 2025년 10월 11일
+**버전**: 1.0.1
+**최종 업데이트**: 2025년 10월 30일
+**SDK 버전**: AdChainSDK 1.0.47

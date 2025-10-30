@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/1selfworld-labs/adchain-sdk-ios-release.git",
       "state" : {
-        "revision" : "5a0c0df4c8e8fc201c917ae912368c94876b2cbe",
-        "version" : "1.0.45"
+        "revision" : "fd4a633a1268b7cb59718ea0bcdfb3e670c8d7ff",
+        "version" : "1.0.47"
       }
     }
   ],

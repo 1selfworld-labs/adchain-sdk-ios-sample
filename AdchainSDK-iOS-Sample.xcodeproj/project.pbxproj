@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		72E334472EAF2E5300CD36A6 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 72E334462EAF2E5300CD36A6 /* AdchainSDK */; };
+		72810F7F2EB2E5D2006ECAC8 /* AdchainSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 72810F7E2EB2E5D2006ECAC8 /* AdchainSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72E334472EAF2E5300CD36A6 /* AdchainSDK in Frameworks */,
+				72810F7F2EB2E5D2006ECAC8 /* AdchainSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +130,7 @@
 			);
 			name = "AdchainSDK-iOS-Sample";
 			packageProductDependencies = (
-				72E334462EAF2E5300CD36A6 /* AdchainSDK */,
+				72810F7E2EB2E5D2006ECAC8 /* AdchainSDK */,
 			);
 			productName = "AdchainSDK-iOS-Sample";
 			productReference = 72EB33392E689336007D1EB2 /* AdchainSDK-iOS-Sample.app */;
@@ -215,7 +215,7 @@
 			mainGroup = 72EB33302E689336007D1EB2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				72E334452EAF2E5300CD36A6 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */,
+				72810F7D2EB2E5D2006ECAC8 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 72EB333A2E689336007D1EB2 /* Products */;
@@ -580,20 +580,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		72E334452EAF2E5300CD36A6 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */ = {
+		72810F7D2EB2E5D2006ECAC8 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/1selfworld-labs/adchain-sdk-ios-release.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.45;
+				version = 1.0.47;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		72E334462EAF2E5300CD36A6 /* AdchainSDK */ = {
+		72810F7E2EB2E5D2006ECAC8 /* AdchainSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 72E334452EAF2E5300CD36A6 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */;
+			package = 72810F7D2EB2E5D2006ECAC8 /* XCRemoteSwiftPackageReference "adchain-sdk-ios-release" */;
 			productName = AdchainSDK;
 		};
 /* End XCSwiftPackageProductDependency section */

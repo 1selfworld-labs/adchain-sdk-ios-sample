@@ -2,7 +2,8 @@
 
 > AdChain SDK iOS Sample 프로젝트의 AI 지원 개발 과정 및 기술 결정사항
 
-**작성일**: 2025년 10월 11일
+**작성일**: 2025년 10월 11일 (초기 작성)
+**최종 업데이트**: 2025년 10월 30일
 **프로젝트**: AdChain SDK iOS Sample
 **AI 모델**: Claude (Anthropic)
 
@@ -13,6 +14,7 @@
 - [프로젝트 개요](#프로젝트-개요)
 - [마이그레이션 프로세스](#마이그레이션-프로세스)
 - [주요 API 변경사항](#주요-api-변경사항)
+- [최신 기능 추가 (2025-10-30)](#최신-기능-추가-2025-10-30)
 - [기술적 결정사항](#기술적-결정사항)
 - [문제 해결 과정](#문제-해결-과정)
 - [코드 패턴 및 베스트 프랙티스](#코드-패턴-및-베스트-프랙티스)
@@ -506,6 +508,279 @@ sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 18.5;/IPHONEOS_DEPLOYMENT_TARGET = 15.
 
 ---
 
+## 최신 기능 추가 (2025-10-30)
+
+### SDK v1.0.47 업데이트
+
+AdChain SDK를 v1.0.45에서 v1.0.47로 업데이트했습니다.
+
+**변경 내역**:
+- `Package.resolved`: revision 5a0c0df → fd4a633
+- `project.pbxproj`: 패키지 참조 ID 업데이트
+
+### Tab 기반 UI 구조로 전환
+
+기존 단일 화면 구조에서 Tab 기반 구조로 전환하여 UX를 개선했습니다.
+
+#### 새로 추가된 ViewController
+
+**1. LoginViewController.swift**
+- SDK 초기화 및 사용자 로그인 담당
+- 기능:
+  - SDK 수동 초기화 (Initialize SDK 버튼)
+  - 사용자 ID 입력 및 로그인
+  - Skip Login (테스트 모드 - SDK 미초기화 상태 테스트)
+  - 로그인 성공 시 TabBarController로 전환
+
+```swift
+// 주요 기능
+@objc private func performSdkInitialization() {
+    appDelegate.initializeAdchainSdk()
+    // SDK 초기화 완료까지 폴링
+}
+
+@objc private func performLogin() {
+    let user = AdchainSdkUser(userId: userId, gender: .male, birthYear: 1990)
+    AdchainSdk.shared.login(adchainSdkUser: user, listener: LoginListenerImpl(viewController: self))
+}
+
+private func navigateToTabBar() {
+    let tabBarVC = TabBarController()
+    window.rootViewController = tabBarVC  // 화면 전환
+}
+```
+
+**2. TabBarController.swift**
+- UITabBarController 기반 탭 컨테이너
+- 2개 탭: 홈(HomeViewController), 혜택(BenefitsViewController)
+- Android와 동일한 색상 적용 (#007AFF)
+
+```swift
+private func setupTabBar() {
+    let homeVC = HomeViewController()
+    homeVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), tag: 0)
+    let homeNav = UINavigationController(rootViewController: homeVC)
+
+    let benefitsVC = BenefitsViewController()
+    benefitsVC.tabBarItem = UITabBarItem(title: "혜택", image: UIImage(systemName: "gift"), tag: 1)
+
+    viewControllers = [homeNav, benefitsVC]
+    tabBar.tintColor = UIColor(red: 0, green: 0.48, blue: 1.0, alpha: 1.0)
+}
+```
+
+**3. BenefitsViewController.swift**
+- AdchainOfferwallView 통합 (SDK v1.0.47의 새 기능)
+- WebView ↔ App 양방향 통신 구현
+- 기능:
+  - AdchainOfferwallView를 UIView로 삽입
+  - OfferwallCallback 구현 (onOpened, onClosed, onError, onRewardEarned)
+  - OfferwallEventCallback 구현 (onCustomEvent, onDataRequest)
+
+```swift
+private func setupOfferwallView() {
+    let offerwallView = AdchainOfferwallView()
+    view.addSubview(offerwallView)
+
+    // 레이아웃: SafeArea 기준
+    NSLayoutConstraint.activate([
+        offerwallView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        offerwallView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        offerwallView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        offerwallView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+    ])
+
+    offerwallView.setCallback(OfferwallCallbackImpl(viewController: self))
+    offerwallView.setEventCallback(EventCallbackImpl(viewController: self))
+}
+
+private func loadOfferwall() {
+    offerwallView?.loadOfferwall(placementId: "sample-test-ios-placement")
+}
+```
+
+**WebView → App 통신 (Custom Events)**:
+```swift
+func onCustomEvent(eventType: String, payload: [String: Any]) {
+    switch eventType {
+    case "show_toast":
+        let message = payload["message"] as? String ?? ""
+        showToast("🎉 WebView Message: \(message)")
+    case "navigate":
+        let screen = payload["screen"] as? String ?? ""
+        showToast("🧭 Navigate to: \(screen)")
+    case "share", "buy_ticket", "show_ticket_list":
+        // 각 이벤트 처리
+    default:
+        showToast("📨 Event: \(eventType)")
+    }
+}
+```
+
+**App → WebView 통신 (Data Requests)**:
+```swift
+func onDataRequest(requestId: String, requestType: String, params: [String: Any]) -> [String: Any]? {
+    switch requestType {
+    case "user_points":
+        return ["points": 12345, "currency": "KRW"]
+    case "user_profile":
+        return ["userId": "test_123", "nickname": "TestPlayer", "level": 42]
+    case "app_version":
+        return ["version": "1.0.0", "buildNumber": 100]
+    default:
+        return nil
+    }
+}
+```
+
+**4. HomeViewController.swift**
+- 기존 MainViewController의 메뉴 기능만 포함
+- SDK 초기화/로그인 기능은 LoginViewController로 이동
+- 기능:
+  - Quiz Test
+  - Mission System Test
+  - Adchain Hub Test
+  - Banner Test
+  - Adjoe Offerwall Test
+  - NestAds Offerwall Test (신규)
+  - App Launch Test
+  - Logout (LoginViewController로 복귀)
+
+```swift
+@objc private func performNestAdsTest() {
+    AdchainSdk.shared.openOfferwallNestAds(
+        presentingViewController: self,
+        placementId: "c3c3fc08-2ba1-4243-93f7-f4d0d71c23a3",
+        callback: NestAdsCallbackImpl(viewController: self)
+    )
+}
+
+@objc private func performLogout() {
+    AdchainSdk.shared.logout()
+    // LoginViewController로 화면 전환
+    let loginVC = LoginViewController()
+    let navController = UINavigationController(rootViewController: loginVC)
+    window.rootViewController = navController
+}
+```
+
+#### SceneDelegate 변경
+
+첫 화면을 MainViewController에서 LoginViewController로 변경:
+
+```swift
+// Before
+let mainViewController = MainViewController()
+let navigationController = UINavigationController(rootViewController: mainViewController)
+
+// After
+let loginViewController = LoginViewController()
+let navigationController = UINavigationController(rootViewController: loginViewController)
+```
+
+### 새로운 SDK 기능 활용
+
+#### 1. NestAds Offerwall 지원
+
+SDK v1.0.47에서 추가된 NestAds Offerwall를 통합했습니다.
+
+```swift
+AdchainSdk.shared.openOfferwallNestAds(
+    presentingViewController: self,
+    placementId: "c3c3fc08-2ba1-4243-93f7-f4d0d71c23a3",
+    callback: callback
+)
+```
+
+**특징**:
+- ADJOE와 유사한 인터페이스 (OfferwallCallback 사용)
+- Placement ID 기반 광고 표시
+- 리워드 획득 추적
+
+#### 2. AdchainOfferwallView (View-based Offerwall)
+
+SDK v1.0.47의 새로운 기능으로, UIView로 삽입 가능한 Offerwall입니다.
+
+**기존 방식 (Modal)**:
+```swift
+AdchainSdk.shared.openOfferwall(presentingViewController: self, placementId: "...")
+```
+
+**새로운 방식 (View 삽입)**:
+```swift
+let offerwallView = AdchainOfferwallView()
+view.addSubview(offerwallView)
+offerwallView.loadOfferwall(placementId: "...")
+```
+
+**장점**:
+- Tab 구조에 통합 가능
+- 화면 전환 없이 항상 표시
+- WebView ↔ App 양방향 통신 지원
+
+**제약사항**:
+- SafeArea 레이아웃 필수 (탭바, 상태바 영역 고려)
+- SDK 초기화 및 로그인 필수
+- 메모리 관리 필요 (화면 이탈 시 정리)
+
+### 아키텍처 변경 요약
+
+#### Before (v1.0.45)
+```
+AppDelegate → SceneDelegate → MainViewController
+                                    ├─ SDK 초기화/로그인
+                                    ├─ Quiz/Mission/Offerwall 메뉴
+                                    └─ ADJOE 테스트
+```
+
+#### After (v1.0.47)
+```
+AppDelegate → SceneDelegate → LoginViewController
+                                    ├─ SDK 초기화
+                                    ├─ 로그인
+                                    └─ TabBarController
+                                           ├─ HomeViewController (NavigationController)
+                                           │       ├─ Quiz/Mission 메뉴
+                                           │       ├─ ADJOE/NestAds 테스트
+                                           │       └─ Logout
+                                           └─ BenefitsViewController
+                                                   └─ AdchainOfferwallView (WebView 통합)
+```
+
+### Android Sample과의 일치성
+
+이번 업데이트로 Android 샘플 앱과 구조가 거의 일치하게 되었습니다:
+
+| 항목 | Android | iOS |
+|------|---------|-----|
+| **초기 화면** | LoginActivity | LoginViewController |
+| **Tab Container** | BottomNavigationView | UITabBarController |
+| **홈 화면** | HomeFragment | HomeViewController |
+| **혜택 화면** | BenefitsFragment | BenefitsViewController |
+| **Offerwall View** | AdchainOfferwallView | AdchainOfferwallView |
+| **Event Callback** | OfferwallEventCallback | OfferwallEventCallback |
+| **Data Request** | onDataRequest | onDataRequest |
+
+### 테스트 플로우
+
+#### Flow 1: 정상 로그인 플로우
+1. 앱 실행 → LoginViewController
+2. "Initialize SDK" 버튼 탭
+3. User ID 입력 (test_user_123)
+4. "Login" 버튼 탭
+5. 로그인 성공 → TabBarController 이동
+6. "홈" 탭: SDK 기능 메뉴
+7. "혜택" 탭: AdchainOfferwallView 표시
+
+#### Flow 2: Skip Login (테스트 모드)
+1. 앱 실행 → LoginViewController
+2. "Skip Login" 버튼 탭
+3. TabBarController 이동 (SDK 미초기화 상태)
+4. "혜택" 탭: SDK 미초기화 오류 처리 확인
+5. "홈" 탭에서 각 기능 테스트 시 오류 핸들링 확인
+
+---
+
 ## 코드 패턴 및 베스트 프랙티스
 
 ### 1. SDK 초기화 패턴
@@ -882,6 +1157,7 @@ jobs:
 | 날짜 | 버전 | 변경 내용 | 작성자 |
 |------|------|-----------|--------|
 | 2025-10-11 | 1.0.0 | 초기 마이그레이션 및 문서 작성 | Claude AI |
+| 2025-10-30 | 1.0.1 | SDK v1.0.47 업데이트, Tab 기반 UI 구조로 전환, AdchainOfferwallView 통합, NestAds 지원 추가 | Claude AI |
 
 ---
 
