@@ -270,8 +270,30 @@ class HomeViewController: UIViewController {
 
         AdchainSdk.shared.openOfferwall(
             presentingViewController: self,
-            placementId: "adchain_hub"
+            placementId: "adchain_hub",
+            callback: nil,
+            eventCallback: EventCallbackImpl(viewController: self)
         )
+    }
+
+    // MARK: - Event Callback for JavaScript Bridge logging
+    class EventCallbackImpl: NSObject, OfferwallEventCallback {
+        weak var viewController: HomeViewController?
+
+        init(viewController: HomeViewController) {
+            self.viewController = viewController
+        }
+
+        func onCustomEvent(eventType: String, payload: [String: Any]) {
+            guard let vc = viewController else { return }
+            print("[\(vc.TAG)] [WebView → App] Custom Event: \(eventType), payload: \(payload)")
+        }
+
+        func onDataRequest(requestId: String, requestType: String, params: [String: Any]) -> [String: Any]? {
+            guard let vc = viewController else { return nil }
+            print("[\(vc.TAG)] [WebView → App] Data Request: id=\(requestId), type=\(requestType), params=\(params)")
+            return nil
+        }
     }
 
     @objc private func performBannerTest() {
@@ -410,8 +432,9 @@ class HomeViewController: UIViewController {
 
         AdchainSdk.shared.openOfferwallNestAds(
             presentingViewController: self,
-            placementId: "c3c3fc08-2ba1-4243-93f7-f4d0d71c23a3",
-            callback: NestAdsCallbackImpl(viewController: self)
+            placementId: "57730adf-b21f-4649-b0f4-a7f3cb654b63",
+            callback: NestAdsCallbackImpl(viewController: self),
+            eventCallback: EventCallbackImpl(viewController: self)
         )
     }
 
@@ -454,7 +477,9 @@ window.onAppInstalledResult = function(result) { alert('설치: ' + result.insta
             guard let self = self else { return }
             AdchainSdk.shared.openOfferwall(
                 presentingViewController: self,
-                placementId: "app_launch_test"
+                placementId: "app_launch_test",
+                callback: nil,
+                eventCallback: EventCallbackImpl(viewController: self)
             )
             self.showToast("콘솔에서 테스트 코드를 실행하세요")
         })

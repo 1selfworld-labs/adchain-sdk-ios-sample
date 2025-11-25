@@ -27,11 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Exact Android SDK initialization pattern
         let config = AdchainSdkConfig.Builder(appKey: APP_KEY, appSecret: APP_SECRET)
-            .setEnvironment(.production)
+            .setEnvironment(.staging)
             .build()
 
+//        AdchainSdk.setLogLevel(.debug)
         // Fix: Use UIApplication.shared directly to avoid casting issues
         AdchainSdk.shared.initialize(application: UIApplication.shared, sdkConfig: config)
+
 
         print("\(TAG): Adchain SDK initialized successfully with App KEY: \(APP_KEY)")
     }

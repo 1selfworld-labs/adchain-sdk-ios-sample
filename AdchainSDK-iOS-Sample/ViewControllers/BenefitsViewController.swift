@@ -4,7 +4,7 @@ import AdchainSDK
 class BenefitsViewController: UIViewController {
 
     private let TAG = "BenefitsViewController"
-    private let PLACEMENT_ID = "sample-test-ios-placement"
+    private let PLACEMENT_ID = "57730adf-b21f-4649-b0f4-a7f3cb654b63"
 
     private var offerwallView: AdchainOfferwallView?
 
