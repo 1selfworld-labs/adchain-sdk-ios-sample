@@ -585,7 +585,7 @@
 			repositoryURL = "https://github.com/1selfworld-labs/adchain-sdk-ios-release.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.47;
+				version = 1.0.48;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
